@@ -1,12 +1,16 @@
 import dag
-from graphs import DirectedAdjacencyMatrix, DirectedAdjacencyList
+import graphs
 import sorts
 
 # g = radnom_dag_adjacency_matrix(6)
-g = DirectedAdjacencyMatrix.from_matrix(
-    [[0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-)
+# g = graphs.DirectedAdjacencyMatrix.from_matrix(
+#     [[0, 1, 0, 1], [0, 0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0]]
+# )
 # g = DirectedAdjacencyList.from_list([[1, 3], [], [0], []])
+
+g = graphs.DirectedIncidenceMatrix.from_matrix(
+    [[1, -1, 1], [-1, 0, 0], [0, 1, 0], [0, 0, -1]]
+)
 
 
 g.print()

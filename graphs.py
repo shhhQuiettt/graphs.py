@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
+import enum
 from typing import Generator, Any
 
 
@@ -165,4 +166,98 @@ class DirectedArcList(Graph):
 
 
 class DirectedIncidenceMatrix(Graph):
-    pass
+    def __init__(self, number_of_verticies: int) -> None:
+        self.number_of_verticies = number_of_verticies
+        self.matrix = [[] for _ in range(number_of_verticies)]
+
+    def add_vertex(self, v=None):
+        if v is not None:
+            raise NotImplementedError("IncidenceMatrix does not support vertex labels")
+
+        self.matrix.append([])
+
+    def remove_vertex(self, v):
+        self.matrix.pop(v)
+
+    def add_edge(self, v1, v2):
+        for v_id, row in enumerate(self.matrix):
+            if v_id != v1 and v_id != v2:
+                row.append(0)
+            else:
+                row.append(1) if v_id == v1 else row.append(-1)
+
+    def remove_edge(self, v1, v2):
+        edge_id = -1
+        for e_id in range(len(self.matrix[v1])):
+            if self.matrix[e_id][v1] == 1 and self.matrix[e_id][v2] == -1:
+                edge_id = e_id
+                break
+        for row in self.matrix:
+            row.pop(edge_id)
+
+    def in_degree(self, v: Any) -> int:
+        d = 0
+        for e_id in self.matrix[v]:
+            if e_id == -1:
+                d += 1
+        return d
+
+    def vertices_iterator(self):
+        return range(len(self.matrix))
+
+    def vertex_neigbour_iterator(self, v):
+        for e_id, edge in enumerate(self.matrix[v]):
+            if edge == 1:
+                for v_id, row in enumerate(self.matrix):
+                    if row[e_id] == -1:
+                        yield v_id
+
+    def print(self):
+        for row in self.matrix:
+            print(row)
+
+    @classmethod
+    def from_matrix(cls, m):
+        graph = cls(len(m))
+        graph.matrix = m
+        return graph
+
+
+class DirectedForwardStar(Graph):
+    def __init__(self, number_of_verticies: int) -> None:
+        self.number_of_verticies = number_of_verticies
+        self.forward_star = []
+        self.forward_star.append((0, 0))
+
+    def add_vertex(self, v=None):
+        raise NotImplementedError("ForwardStar does not support vertex adding")
+
+    def remove_vertex(self, v):
+        raise NotImplementedError("ForwardStar does not support vertex removal")
+
+    def add_edge(self, v1, v2):
+        self.forward_star.append((v1, v2))
+
+    def remove_edge(self, v1, v2):
+        self.forward_star.remove((v1, v2))
+
+    def in_degree(self, v: Any) -> int:
+        return sum([arc[1] == v for arc in self.forward_star])
+
+    def vertices_iterator(self):
+        return range(self.number_of_verticies)
+
+    def vertex_neigbour_iterator(self, v):
+        for arc in self.forward_star:
+            if arc[0] == v:
+                yield arc[1]
+
+    def print(self):
+        for arc in self.forward_star:
+            print(f"{arc[0]} -> {arc[1]}")
+
+    @classmethod
+    def from_list(cls, forward_star: list):
+        graph = cls(len(forward_star))
+        graph.forward_star = forward_star
+        return graph
