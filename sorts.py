@@ -30,12 +30,14 @@ def dfs_sort(graph: Graph) -> deque:
     black = set()
 
     def dfs_visit(graph: Graph, vertex: Any):
+        white.remove(vertex)
         gray.add(vertex)
         for neighbour in graph.vertex_neigbour_iterator(vertex):
             if neighbour in white:
                 dfs_visit(graph, neighbour)
 
         # unneccessary line
+        gray.remove(vertex)
         black.add(vertex)
         ordered_verticies.appendleft(vertex)
 

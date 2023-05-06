@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from collections.abc import Iterable
 from typing import Generator, Any
 
 
@@ -64,7 +65,13 @@ class DirectedAdjacencyMatrix(Graph):
     def vertex_neigbour_iterator(self, v):
         for i in range(self.number_of_verticies):
             if self.matrix[v][i] == 1:
-                yield self.matrix[v][i]
+                yield i
+
+    @classmethod
+    def from_matrix(cls, m):
+        graph = cls(len(m))
+        graph.matrix = m
+        return graph
 
     def print(self):
         for row in self.matrix:
