@@ -9,7 +9,7 @@ class SortType(Enum):
     DFS = 2
 
 
-def topological_sort(graph: Graph, algorithm: SortType):
+def topological_sort(graph: Graph, algorithm: SortType) -> deque:
     match algorithm:
         case SortType.DFS:
             return dfs_sort(graph)
@@ -19,7 +19,26 @@ def topological_sort(graph: Graph, algorithm: SortType):
 
 def kahn_sort(graph: Graph) -> deque:
     ordered_verticies = deque()
-    return deque()
+    que = deque()
+    in_degrees = {}
+
+    for vertex in graph.vertices_iterator():
+        curr_in_degree = graph.in_degree(vertex)
+        if curr_in_degree == 0:
+            que.append(vertex)
+            ordered_verticies.append(vertex)
+        else:
+            in_degrees[vertex] = curr_in_degree
+
+    while len(que) > 0:
+        vertex = que.pop()
+        for neighbour_vertex in graph.vertex_neigbour_iterator(vertex):
+            in_degrees[neighbour_vertex] -= 1
+            if in_degrees[neighbour_vertex] == 0:
+                que.append(neighbour_vertex)
+                ordered_verticies.append(neighbour_vertex)
+
+    return ordered_verticies
 
 
 def dfs_sort(graph: Graph) -> deque:
