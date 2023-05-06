@@ -17,12 +17,11 @@ def topological_sort(graph: Graph, algorithm: SortType):
             return kahn_sort(graph)
 
 
-# Should return list?
 def kahn_sort(graph: Graph) -> deque:
+    ordered_verticies = deque()
     return deque()
 
 
-# Should return list?
 def dfs_sort(graph: Graph) -> deque:
     ordered_verticies = deque()
     white = set()
