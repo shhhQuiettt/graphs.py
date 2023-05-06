@@ -32,7 +32,6 @@ class Graph(ABC):
     def print(self):
         pass
 
-
 class DirectedAdjacencyMatrix(Graph):
     def __init__(self, number_of_verticies: int):
         self.number_of_verticies = number_of_verticies
