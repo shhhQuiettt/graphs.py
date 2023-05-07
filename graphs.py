@@ -226,38 +226,50 @@ class DirectedIncidenceMatrix(Graph):
 class DirectedForwardStar(Graph):
     def __init__(self, number_of_verticies: int) -> None:
         self.number_of_verticies = number_of_verticies
-        self.forward_star = []
-        self.forward_star.append((0, 0))
+        self.forward_star = {}
+        for i in range(number_of_verticies):
+            self.forward_star[i] = {}
 
     def add_vertex(self, v=None):
-        pass
+        self.forward_star[v] = {}
 
     def remove_vertex(self, v):
-        raise NotImplementedError("ForwardStar does not support vertex removal")
+        self.forward_star.pop(v)
 
     def add_edge(self, v1, v2):
-        self.forward_star.append((v1, v2))
+        self.forward_star[v1][v2]=1
 
     def remove_edge(self, v1, v2):
-        self.forward_star.remove((v1, v2))
+        self.forward_star[v1].pop(v2)
 
     def in_degree(self, v: Any) -> int:
-        return sum([arc[1] == v for arc in self.forward_star])
+
+        in_degree = 0
+        for key in self.forward_star:
+            if v in self.forward_star[key]:
+                in_degree+=1
+
+        return in_degree
 
     def vertices_iterator(self):
         return range(self.number_of_verticies)
 
     def vertex_neigbour_iterator(self, v):
-        for arc in self.forward_star:
-            if arc[0] == v:
-                yield arc[1]
+        for key in self.forward_star[v]:
+            yield key
 
     def print(self):
-        for arc in self.forward_star:
-            print(f"{arc[0]} -> {arc[1]}")
+        for key in self.forward_star:
+            for k in self.forward_star[key]:
+                print(f"{key} -> {k}")
 
     @classmethod
     def from_list(cls, forward_star: list):
         graph = cls(len(forward_star))
-        graph.forward_star = forward_star
+        tab = {}
+        for i in range(len(forward_star)):
+            tab[i] = {}
+            for element in forward_star[i]:
+                tab[i][element]=1
+        graph.forward_star = tab
         return graph

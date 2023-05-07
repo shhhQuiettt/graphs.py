@@ -24,3 +24,13 @@ def random_dag_adjacency_list(
             if random.random() < density:
                 adj_list[i].append(j)
     return graphs.DirectedAdjacencyList.from_list(adj_list)
+
+def random_dag_forward_star(
+    vertex_number: int, density: float
+) -> graphs.DirectedForwardStar:
+    adj_list = [[] for i in range(vertex_number)]
+    for i in range(vertex_number):
+        for j in range(i + 1, vertex_number):
+            if random.random() < density:
+                adj_list[i].append(j)
+    return graphs.DirectedForwardStar.from_list(adj_list)
