@@ -159,9 +159,10 @@ class DirectedArcList(Graph):
             print(f"{arc[0]} -> {arc[1]}")
 
     @classmethod
-    def from_list(cls, arc_list: list):
+    def from_list(cls, arc_list: list, vertices_number: int):
         graph = cls(len(arc_list))
         graph.arc_list = arc_list
+        graph.number_of_verticies = vertices_number
         return graph
 
 
@@ -217,9 +218,10 @@ class DirectedIncidenceMatrix(Graph):
             print(row)
 
     @classmethod
-    def from_matrix(cls, m):
+    def from_matrix(cls, m, vertices_number: int):
         graph = cls(len(m))
         graph.matrix = m
+        graph.number_of_verticies = vertices_number
         return graph
 
 
@@ -237,17 +239,16 @@ class DirectedForwardStar(Graph):
         self.forward_star.pop(v)
 
     def add_edge(self, v1, v2):
-        self.forward_star[v1][v2]=1
+        self.forward_star[v1][v2] = 1
 
     def remove_edge(self, v1, v2):
         self.forward_star[v1].pop(v2)
 
     def in_degree(self, v: Any) -> int:
-
         in_degree = 0
         for key in self.forward_star:
             if v in self.forward_star[key]:
-                in_degree+=1
+                in_degree += 1
 
         return in_degree
 
@@ -270,6 +271,25 @@ class DirectedForwardStar(Graph):
         for i in range(len(forward_star)):
             tab[i] = {}
             for element in forward_star[i]:
-                tab[i][element]=1
+                tab[i][element] = 1
         graph.forward_star = tab
         return graph
+
+
+def adjacency_list_to_incidence_matrix(adj_list):
+    # Determine the number of vertices and edges in the graph
+    num_vertices = len(adj_list)
+    num_edges = sum(len(adj_list[v]) for v in range(num_vertices))
+
+    # Initialize the incidence matrix with all zeros
+    incidence_matrix = [[0] * num_edges for _ in range(num_vertices)]
+
+    # Build the incidence matrix based on the adjacency list
+    edge_index = 0
+    for v in range(num_vertices):
+        for u in adj_list[v]:
+            incidence_matrix[v][edge_index] = 1
+            incidence_matrix[u][edge_index] = -1
+            edge_index += 1
+
+    return incidence_matrix

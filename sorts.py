@@ -24,11 +24,11 @@ def kahn_sort(graph: Graph) -> deque:
 
     for vertex in graph.vertices_iterator():
         curr_in_degree = graph.in_degree(vertex)
+        in_degrees[vertex] = curr_in_degree
+
         if curr_in_degree == 0:
             que.append(vertex)
             ordered_verticies.append(vertex)
-        else:
-            in_degrees[vertex] = curr_in_degree
 
     while len(que) > 0:
         vertex = que.pop()

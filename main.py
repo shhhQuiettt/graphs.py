@@ -18,8 +18,8 @@ import sorts
 # print(sorts.topological_sort(g, sorts.SortType.DFS))
 # print(sorts.topological_sort(g, sorts.SortType.KAHN))
 
-g = dag.random_dag_forward_star(6, 0.5)
-
+# g = dag.random_dag_forward_star(6, 0.5)
+g = dag.random_dag_incidence_matrix(4, 0.5)
 g.print()
 
 print(sorts.topological_sort(g, sorts.SortType.DFS))
