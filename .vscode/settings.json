@@ -1,0 +1,76 @@
+{
+  "jupyter.kernels.filter": [
+    {
+      "path": "/home/krzys/anaconda3/envs/alcslab3/bin/python",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/home/krzys/anaconda3/envs/base2/bin/python",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/home/krzys/anaconda3/envs/base3/bin/python",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/home/krzys/anaconda3/envs/circle_art/bin/python",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/home/krzys/.local/share/jupyter/kernels/julia-1.8/kernel.json",
+      "type": "jupyterKernelspec"
+    },
+    {
+      "path": "/bin/python2",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/usr/bin/python2",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/sbin/python2",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/usr/sbin/python2",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/home/krzys/.local/share/jupyter/kernels/python3/kernel.json",
+      "type": "jupyterKernelspec"
+    },
+    {
+      "path": "/sbin/python",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/usr/bin/python",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/bin/python",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/usr/sbin/python",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/sbin/python3.8",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/bin/python3.8",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/usr/bin/python3.8",
+      "type": "pythonEnvironment"
+    },
+    {
+      "path": "/usr/sbin/python3.8",
+      "type": "pythonEnvironment"
+    }
+  ]
+}
