@@ -124,6 +124,11 @@ class DirectedAdjacencyList(Graph):
         for i, row in enumerate(self.adj_list):
             print(f"{i}: {row}")
 
+    def get_neighbour(self, v):
+        if len(self.adj_list[v]) == 0:
+            return -1
+        return self.adj_list[v][0]
+
 
 class DirectedArcList(Graph):
     def __init__(self, number_of_verticies: int):
