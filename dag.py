@@ -1,5 +1,7 @@
 import graphs
-import random, time
+import random
+import time
+
 
 def make_dag(g: graphs.Graph, saturation: float, order: int, seed=1024):
     random.seed(seed)
@@ -17,43 +19,96 @@ def make_dag(g: graphs.Graph, saturation: float, order: int, seed=1024):
 
 # make_dag(graphs.DirectedIncidenceMatrix(0), 0.1, 10).print()
 
-def dfs(graph,vertex, visit,wynik):
+def dfs(graph, vertex, visit, wynik):
 
     visit[vertex] = True
-    wynik+=1
+    wynik += 1
 
     for successor in graph.vertex_neigbour_iterator(vertex):
         if visit[successor] == False:
-            dfs(graph,vertex,visit,wynik)
+            dfs(graph, vertex, visit, wynik)
 
-    
     return wynik
 
 
+def make_undirected_hc(g: graphs.DirectedAdjacencyList, density: float, order: int, seed=1024):
+    # random.seed(seed)
 
-
-def make_undirected_hc(g: graphs.Graph, density: float, order: int, seed=1024):
-    random.seed(seed)
-
-    for _ in range(order):
+    for i in range(order):
         g.add_vertex()
 
     # create a cycle
     for i in range(order-1):
-        g.add_edge(i,i+1)
-        g.add_edge(i+1,i)
-    g.add_edge(order-1,0)
-    g.add_edge(0,order-1)
-
+        g.add_edge(i, i+1)
+        g.add_edge(i+1, i)
+    g.add_edge(order-1, 0)
+    g.add_edge(0, order-1)
 
     for i in range(order):
-        for j in range(order):
-            if i != j:
-                if random.random() < density:
-                    g.add_edge(i, j)
-                    g.add_edge(j, i)
+        for j in range(i+2, order):
+            if random.random() < density:
+                g.add_edge(i, j)
+                g.add_edge(j, i)
+
+    for i in range(order):
+        random.shuffle(g.adj_list[i])
 
     return g
+
+
+def generateGraphWithHC(n=100, density=0.5):
+    graph = graphs.DirectedAdjacencyList(0)
+    for i in range(n):
+        graph.add_vertex()
+    for startNode in range(n-1):
+        for endNode in range(startNode, n-1):
+            if random.random() <= density:
+                graph.add_edge(startNode, endNode)
+        random.shuffle(graph.adj_list[startNode])
+    cycle = [x for x in range(n)]
+    random.shuffle(cycle)
+    if cycle[1] == cycle[-1]:
+        cycle[1], cycle[2] = cycle[2], cycle[1]
+    for i in range(len(cycle) - 1, -1, -1):
+        graph.add_edge(cycle[i], cycle[i-1])
+    return graph
+
+
+def generateGraphWithHC_elo(n=100, density=0.5):
+    graph = graphs.DirectedAdjacencyList(0)
+    for i in range(n):
+        graph.add_vertex()
+    for startNode in range(n-1):
+        for endNode in range(startNode, n-1):
+            if random.random() <= density:
+                graph.add_edge(startNode, endNode)
+        random.shuffle(graph.adj_list[startNode])
+    cycle = [x for x in range(n)]
+    random.shuffle(cycle)
+    if cycle[1] == cycle[-1]:
+        cycle[1], cycle[2] = cycle[2], cycle[1]
+    for i in range(len(cycle) - 1, -1, -1):
+        graph.add_edge(cycle[i], cycle[i-1])
+    graph.add_vertex
+    return graph
+
+
+def generateGraphWithoutECandHC(n=100, density=0.5):
+    graph = graphs.DirectedAdjacencyList(0)
+    for i in range(0, n):
+        graph.add_vertex()
+
+    for startNode in range(n):
+        for endNode in range(startNode, n-1):
+            if random.random() <= density:
+                graph.add_edge(startNode, endNode)
+                graph.add_edge(endNode, startNode)
+        random.shuffle(graph.adj_list[startNode])
+
+    graph.add_edge(n-1, 0)
+    # graph.add_edge(0, n-1)
+    return graph
+
 
 def make_undirected_ec(g: graphs.DirectedAdjacencyList, density: float, order: int, seed=1024):
     random.seed(seed)
@@ -70,14 +125,12 @@ def make_undirected_ec(g: graphs.DirectedAdjacencyList, density: float, order: i
                         g.add_edge(i, j)
                         g.add_edge(j, i)
 
-
     tab = []
     for i in range(order):
-        if g.in_degree(i) %2 != 0:
+        if g.in_degree(i) % 2 != 0:
             tab.append(i)
 
-
-    for i in range(0,len(tab),2):
+    for i in range(0, len(tab), 2):
         if tab[i] in g.adj_list[tab[i+1]]:
             g.adj_list[tab[i+1]].remove(tab[i])
             g.adj_list[tab[i]].remove(tab[i+1])
@@ -85,11 +138,32 @@ def make_undirected_ec(g: graphs.DirectedAdjacencyList, density: float, order: i
             g.add_edge(tab[i], tab[i+1])
             g.add_edge(tab[i+1], tab[i])
 
+    for i in range(order):
+        random.shuffle(g.adj_list[i])
 
     return g
 
-    
-p = make_undirected_ec(graphs.DirectedAdjacencyList(0),0.30,5, time.time())
+def make_undirected_nec(g: graphs.DirectedAdjacencyList, density: float, order: int, seed=1024):
+    random.seed(seed)
+
+    for _ in range(order):
+        g.add_vertex()
+
+    # create random grpah
+    for i in range(order):
+        for j in range(order):
+            if i != j:
+                if random.random() < density:
+                    if j not in g.adj_list[i]:
+                        g.add_edge(i, j)
+                        g.add_edge(j, i)
+
+    for i in range(order):
+        random.shuffle(g.adj_list[i])
+
+    return g
+
+# p = make_undirected_ec(graphs.DirectedAdjacencyList(0),0.30,5, time.time())
 
 
 # print(random.random())
