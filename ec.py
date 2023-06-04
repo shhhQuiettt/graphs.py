@@ -20,22 +20,4 @@ def detect_ec(graph: graphs.DirectedAdjacencyList):
 
     dfs_visit(graph, 0, 0)
 
-
-    if ordered_verticies[0] != ordered_verticies[len(ordered_verticies) - 1]:
-        return False 
-    return True
-
-tab = []
-tab.append([1,2,3])
-tab.append([2,0])
-tab.append([1,0,3])
-tab.append([2,0])
-
-
-# print(tab[5][0])
-
-g = graphs.DirectedAdjacencyList.from_list(tab)
-g.print()
-
-order = detect_ec(g)
-print(order)
+    return ordered_verticies

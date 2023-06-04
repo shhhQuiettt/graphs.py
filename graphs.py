@@ -113,6 +113,9 @@ class DirectedAdjacencyList(Graph):
     def in_degree(self, v: Any) -> int:
         return sum([v in row for row in self.adj_list])
 
+    def out_degree(self, v: Any) -> int:
+        return len(self.adj_list[v])
+
     def vertices_iterator(self):
         return range(len(self.adj_list))
 
